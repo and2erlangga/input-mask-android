@@ -188,6 +188,10 @@ open class MaskedTextChangedListener(
     fun totalValueLength(): Int = this.primaryMask.totalValueLength()
 
     override fun afterTextChanged(edit: Editable?) {
+        if (edit?.count() == 1 && edit.toString() == " ") {
+            this.field.get()?.setText("")
+            return
+        }
         this.field.get()?.removeTextChangedListener(this)
         edit?.replace(0, edit.length, this.afterText)
         this.field.get()?.setSelection(this.caretPosition)
